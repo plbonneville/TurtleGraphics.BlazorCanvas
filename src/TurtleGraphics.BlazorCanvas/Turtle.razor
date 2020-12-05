@@ -1,0 +1,26 @@
+﻿@using Blazor.Extensions.Canvas
+
+<div>
+    @if (ShowTurtle)
+    {
+        <img style="
+                display: flex;
+                position: absolute;
+                z-index: 1;
+                -webkit-transform: @RotateStyle;
+                -moz-transform:    @RotateStyle;
+                -ms-transform:     @RotateStyle;
+                -o-transform:      @RotateStyle;
+                transform:         @RotateStyle;
+                margin-left: @($"{_turtle.Left}px");
+                margin-top:  @($"{_turtle.Top}px");"
+             src="_content/TurtleGraphics.BlazorCanvas/Turtle.png"
+             width="35"
+             height="35" />
+    }
+
+    <div id="canvasContainer"
+         style="width: 100%; height: 100%; opacity: 1;">
+        <BECanvas @ref="_canvas" Height="@Height" Width="@Width"></BECanvas>
+    </div>
+</div>

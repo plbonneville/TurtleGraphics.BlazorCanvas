@@ -1,0 +1,147 @@
+﻿@page "/"
+
+@using System.Drawing
+
+<h1>TurtleGraphics.BlazorCanvas</h1>
+
+<p>C# Turtle Graphics library for Blazor</p>
+
+<div class="no-gutters">    
+    <Turtle @ref="_turtle" Width="553" Height="288" />
+</div>
+
+<div class="no-gutters">
+    <div class="row justify-content-center">
+        <div class="alert alert-dark">
+            <div class="row justify-content-center">
+                <button type="button" class="btn-sm btn btn-light" @onclick="async () => { await _turtle.RotateTo(0); await _turtle.Forward(); }"><span class="oi oi-arrow-thick-top"></span></button>
+            </div>
+            <div class="row justify-content-center">
+                <button type="button" class="btn-sm btn btn-light" @onclick="async () => { await _turtle.RotateTo(-90); await _turtle.Forward(); }"><span class="oi oi-arrow-thick-left"></span></button>
+                <button type="button" class="btn-sm btn btn-light invisible"><span class="oi oi-circle-x"></span></button>
+                <button type="button" class="btn-sm btn btn-light" @onclick="async () => { await _turtle.RotateTo(90); await _turtle.Forward(); }"><span class="oi oi-arrow-thick-right"></span></button>
+            </div>
+            <div class="row justify-content-center">
+                <button type="button" class="btn-sm btn btn-light" @onclick="async () => { await _turtle.RotateTo(180); await _turtle.Forward(); }"><span class="oi oi-arrow-thick-bottom"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="row mt-4">
+        <button type="button" class="m-1 btn-sm btn btn-dark" @onclick="async () => await _turtle.Reset()">Reset</button>
+        <button type="button" class="m-1 btn-sm btn btn-secondary" @onclick="() => _turtle.ShowTurtle = !_turtle.ShowTurtle">Show / Hide Turtle</button>
+        <button type="button" class="m-1 btn-sm btn btn-secondary" @onclick="() => _turtle.PenVisible = !_turtle.PenVisible">Pen Up / Down</button>
+    </div>
+
+    <div class="row mt-4">
+        <button type="button" class="m-1 btn-sm btn btn-danger" @onclick="() => _turtle.PenColor = Color.Red">Red Pen</button>
+        <button type="button" class="m-1 btn-sm btn btn-success" @onclick="() => _turtle.PenColor = Color.Green">Green Pen</button>
+        <button type="button" class="m-1 btn-sm btn btn-primary" @onclick="() => _turtle.PenColor = Color.Blue">Blue Pen</button>
+    </div>
+
+    <div class="row mt-4">
+        <button class="btn-sm m-1 btn btn-secondary" @onclick="Triangle">Draw a triangle</button>
+        <button class="btn-sm m-1 btn btn-secondary" @onclick="GreenStar">Draw a green star</button>
+        <button class="btn-sm m-1 btn btn-secondary" @onclick="Spiral">Draw a spiral</button>
+        <button class="btn-sm m-1 btn btn-secondary" @onclick="ColorWheel">Draw a color wheel</button>
+        <button class="btn-sm m-1 btn btn-secondary" @onclick="DrawTriforce">Draw a Sierpiński triangle (a Triforce)</button>
+        <button class="btn-sm m-1 btn btn-secondary" @onclick="DrawCircle">Draw a circle</button>
+    </div>
+
+    @code {
+        private Turtle _turtle;
+
+        private async Task Triangle()
+        {
+            _turtle.PenSize = 1;
+            await _turtle.Rotate(30);
+            _turtle.PenColor = Color.Black;
+            _turtle.Delay = 150;
+
+            await DrawTriangle(100);
+        }
+
+        private async Task GreenStar()
+        {
+            _turtle.Delay = 200;
+            _turtle.PenColor = Color.Green;
+            for (int i = 0; i < 5; i++)
+            {
+                await _turtle.Forward(100);
+                await _turtle.Rotate(144);
+            }
+        }
+
+        private async Task Spiral()
+        {
+            _turtle.Delay = 100;
+            _turtle.PenColor = Color.DarkGreen;
+            for (int i = 0; i < 20; i++)
+            {
+                await _turtle.Forward(i * 5);
+                await _turtle.Rotate(60);
+            }
+        }
+
+        private async Task ColorWheel()
+        {
+            _turtle.PenSize = 4;
+            _turtle.Delay = 10;
+
+            var rand = new Random();
+
+            for (int i = 0; i < 36; i++)
+            {
+                // System.Drawing.KnownColor: only use range from `28` to `167`
+                _turtle.PenColor = Color.FromKnownColor((KnownColor)rand.Next(28, 167));
+
+                _turtle.PenUp();
+                await _turtle.Forward(65);
+                _turtle.PenDown();
+
+                await _turtle.Forward(65);
+                await _turtle.Backward(65);
+
+                await _turtle.Rotate(170);
+            }
+        }
+
+        private async Task DrawTriangle(int length)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                await _turtle.Forward(length);
+                await _turtle.Rotate(120);
+            }
+        }
+
+        private async Task DrawTriforce()
+        {
+            //  ▲
+            // ▲ ▲
+            int length = 100;
+            await _turtle.Rotate(30);
+            _turtle.PenColor = Color.Gold;
+            _turtle.Delay = 150;
+
+            await DrawTriangle(length / 2);
+            await _turtle.Forward(length / 2);
+            await DrawTriangle(length / 2);
+            await _turtle.Rotate(120); await _turtle.Forward(length / 2); await _turtle.Rotate(-120);
+            await DrawTriangle(length / 2);
+            await _turtle.Rotate(-120); await _turtle.Forward(length / 2); await _turtle.Rotate(120);
+        }
+
+        private async Task DrawCircle()
+        {
+            _turtle.PenColor = Color.DarkViolet;
+            _turtle.Delay = 10;
+
+            for (int i = 0; i < 36; i++)
+            {
+                await _turtle.Forward(10);
+                await _turtle.Rotate(10);
+            }
+        }
+    }
