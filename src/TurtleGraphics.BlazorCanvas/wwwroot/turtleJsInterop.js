@@ -11,17 +11,9 @@ export function step(timeStamp) {
 }
 
 export function onResize() {
-    if (!canvas || !canvasContainer)
+    if (!canvas || !canvasContainer) {
         return;
-
-    //canvas.width = window.innerWidth;
-    //canvas.height = window.innerHeight;
-    //console.log("window.innerWidth: " + window.innerWidth + " canvasContainer.clientWidth: " + canvasContainer.clientWidth);
-
-    console.log("window.innerWidth" + window.innerWidth);
-    console.log("canvasContainer.offsetWidth" + canvasContainer.offsetWidth);
-    console.log("canvasContainer.clientWidth" + canvasContainer.clientWidth);
-    console.log("canvasContainer.scrollWidth" + canvasContainer.scrollWidth);
+    }       
 
     instance.invokeMethodAsync('OnResize', canvasContainer.clientWidth, canvas.height);
 }
