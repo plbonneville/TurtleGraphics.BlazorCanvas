@@ -26,6 +26,24 @@ namespace TurtleGraphics.BlazorCanvas
         [Inject]
         public TurtleJsInterop? TurtleJsInterop { get; set; }
 
+        public float X
+        {
+            get => _turtle.X;
+            set => _turtle = _turtle with { X = value };
+        }
+
+        public float Y
+        {
+            get => _turtle.Y;
+            set => _turtle = _turtle with { Y = value };
+        }
+
+        public float Angle
+        {
+            get => _turtle.Angle;
+            set => _turtle = _turtle with { Angle = value };
+        }
+
         public bool ShowTurtle
         {
             get => _turtle.ShowTurtle;
