@@ -76,11 +76,11 @@
 
     private async Task Spiral()
     {
-        _turtle.Delay = 10;
+        _turtle.Delay = 100;
         _turtle.PenColor = Color.DarkGreen;
         for (int i = 0; i < 20; i++)
         {
-            await _turtle.Forward(i * 10);
+            await _turtle.Forward(i * 5);
             await _turtle.Rotate(60);
         }
     }
